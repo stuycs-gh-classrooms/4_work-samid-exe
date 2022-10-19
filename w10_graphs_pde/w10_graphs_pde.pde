@@ -39,12 +39,7 @@ void draw() {
 
 void drawSinCurve(int degrees, int amplitude, int yOffset) {
   float sinY = yOffset + sin(radians(degrees)) * amplitude;
-  circle(degrees, sinY, dotDiameter);
-  if (degrees > 600) {
-    degrees -= 600;
-    sinY = yOffset + sin(radians(degrees - 100)) * amplitude;
-    circle(degrees, sinY, dotDiameter);
-  }
+  circle(degrees % width, sinY, dotDiameter);
 }
 
 void drawCircle(int degrees, int radius, int xOffset, int yOffset) {
