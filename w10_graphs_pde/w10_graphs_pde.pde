@@ -20,6 +20,7 @@ void setup() {
 void draw() {
   //background(0);
   //sin curve
+  circRadius = 100;
   drawSinCurve(angle, sinAmplitude, sinAmplitude);
   //circle
   drawCircle(angle, circRadius, width/2, sinAmplitude*2 + circRadius);
@@ -27,13 +28,31 @@ void draw() {
   drawCircle(angle, spiralRadius, width/2, sinAmplitude*2 + circRadius*3);
 
   angle++;
+  if (angle >= 360) {
+    spiralRadius -= 10;
+  }
 }//draw
 
 void drawSinCurve(int degrees, int amplitude, int yOffset) {
-  float inc = TWO_PI;
-  circle(degrees, yOffset + sin(degrees / inc) * amplitude, 1);
-  degrees += 20;
+  float sinY = yOffset + sin(radians(degrees)) * amplitude;
+  circle(degrees, sinY, dotDiameter);
+  if (degrees > 600) {
+    degrees -= 600;
+    sinY = yOffset + sin(radians(degrees - 100)) * amplitude;
+    circle(degrees, sinY, dotDiameter);
+  }
 }
+
 void drawCircle(int degrees, int radius, int xOffset, int yOffset) {
-  
+  float rad = radians(degrees);
+  xOffset = int(radius * cos(rad));
+  yOffset = int(radius * sin(rad));
+  if (degrees < 360) {
+    circle(width/2 + xOffset, height/2 + yOffset, dotDiameter);
+  }
+  degrees%=360;
+  rad = radians(degrees);
+  xOffset = int(radius * cos(rad));
+  yOffset = int(radius * sin(rad));
+  circle(width/2 + xOffset, 5 * height/6 + yOffset, dotDiameter);
 }
