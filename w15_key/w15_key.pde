@@ -8,11 +8,10 @@ void setup() {
   xvals = new int[100];
   yvals = new int[100];
   numPoints = 0;
-
-  drawLines(xvals, yvals);
 }
 
 void draw() {
+  background(0);
   drawLines(xvals, yvals);
 }
 
@@ -24,8 +23,21 @@ void mousePressed() {
 
 void keyPressed() {
   if (key == 'c') {
-    background(0);
+    setup();
   }
+  if (keyCode == UP) {
+    moveLines(xvals, yvals, 0, -1);
+  }
+  else if (keyCode == DOWN) {
+    moveLines(xvals, yvals, 0, 1);
+  }
+  else if (keyCode == LEFT) {
+    moveLines(xvals, yvals, -1, 0);
+  }
+  else if (keyCode == RIGHT) {
+    moveLines(xvals, yvals, 1, 0);
+  }
+  
 }
 
 void drawLines(int[] xs, int[] ys) {
@@ -36,8 +48,24 @@ void drawLines(int[] xs, int[] ys) {
 }
 
 void moveLines(int[] xs, int[] ys, int xMod, int yMod) {
-  for (int i = 0; i < numPoints; i++) {
-    xs[i] += xMod;
-    ys[i] += yMod;
+  if (xMod == 1) {
+    for (int i = 0; i < numPoints; i++) {
+      xs[i] += xMod;
+    }
+  }
+  else if (xMod == -1) {
+    for (int i = 0; i < numPoints; i++) {
+      xs[i] += xMod;
+    }
+  }
+  else if (yMod == 1) {
+    for (int i = 0; i < numPoints; i++) {
+      ys[i] += yMod;
+    }
+  }
+  else if (yMod == -1) {
+    for (int i = 0; i < numPoints; i++) {
+      ys[i] += yMod;
+    }
   }
 }
