@@ -49,12 +49,17 @@ class Ball {
     int score = abs(xvelocity) + abs(yvelocity);
     return score;
   }//getScoreValue
-  
+
   void setColor(color newc) {
     c = newc;
   }
-  
+
   boolean collisionCheck(Ball other) {
-    return dist(cx, cy, other.cx, other.cy) <= (radius + other.radius);
+    if (cx != other.cx && cy != other.cy) {
+      return dist(cx, cy, other.cx, other.cy) <= (radius + other.radius);
+    }
+    else {
+      return false;
+    }
   }
 }//Ball
