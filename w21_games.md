@@ -1,5 +1,4 @@
 # Hello, we (Samid, August) are doing Breakout!
-#
 ### Purpose: destroy all blocks on screen, without losing all lives.
 ### Player control: Paddle at the bottom of the screen reflects a ball.
 ### Computer control: The ball flies around, and blocks disappear when hit.
