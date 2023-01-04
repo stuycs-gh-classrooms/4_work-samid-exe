@@ -1,78 +1,48 @@
-class Ball {
+//constants
+int MIN_BLOCK_SIZE = 5;
 
-  int cx, cy;
-  int xvelocity, yvelocity;
-  int radius;
+//Driver variables
+BlockRow blocks;
+int numBlocks;
+int searchSize;
+int foundBlock;
 
-  //constructor
-  Ball() {
-    radius = 20;
-    reset();
-  }//default constructor
+void setup() {
+  size(600, 200);
+  background(0);
 
-  void reset() {
-    xvelocity = 0;
-    yvelocity = 0;
-    cx = int(random(radius, width-radius));
-    cy = int(random(radius, height-radius));
-  }//resetBall
+  numBlocks = 20;
+  searchSize = MIN_BLOCK_SIZE;
+  foundBlock = -1;
 
-  void display() {
-    circle(cx, cy, radius * 2);
-  }//display
-class Block {
+  blocks = new BlockRow(numBlocks);
+  blocks.display();
+}//setup
 
-  int cx, cy;
-  int sideLength;
-  color inside;
+void draw() {
+  background(0);
+  blocks.display();
+  lookFor(searchSize);
+}//draw
 
-  Block(int x, int y, int sl) {
-    sideLength = sl;
-    inside = color(255);
-    cx = x;
-    cy = y;
-  }//default constructor
+void keyPressed() {
+  if (foundBlock != -1) {
+    blocks.setBlockColor(foundBlock, color(255));
+  }//found block reset color
+  searchSize = (searchSize+1);
+}//keyPressed
 
-  void display() {
-    fill(inside);
-    square(cx, cy, sideLength);
+void lookFor(int targetSize) {
+  foundBlock = blocks.find(targetSize);
+  if (foundBlock != -1) {
+    blocks.setBlockColor(foundBlock, color(255, 255, 0));
+  }//change found block color
+  displayInfo(targetSize, foundBlock);
+}//lookFor
 
-    fill(0);
-    if (sideLength >= 100) {
-      textSize(80);
-    }
-    else {
-      textSize(sideLength);
-    }
-    textAlign(LEFT, TOP);
-    text(sideLength, cx, cy);
-  }//display
-
-}//Ball
-  void move() {
-    if (cx <= radius || cx >= (width - 1 - radius)) {
-      xvelocity*= -1;
-    }//x bounce
-    if (cy <= radius || cy >= (height - 1 - radius)) {
-      yvelocity*= -1;
-    }//x bounce
-    cx+= xvelocity;
-    cy+= yvelocity;
-  }//moveBall
-  
-  void changeSpeed(int x, int y) {
-    xvelocity+= x;
-    yvelocity+= y;
-  }//changeSpeed
-
-  boolean onBall(int x, int y) {
-    float d = dist(x, y, cx, cy);
-    return d <= radius;
-  }//onBall
-  
-  int getScoreValue() {
-    int score = abs(xvelocity) + abs(yvelocity); 
-    return score;
-  }//getScoreValue
-  
-}//Ball
+void displayInfo(int targetSize, int foundIndex) {
+  fill(255);
+  textSize(20);
+  textAlign(LEFT, TOP);
+  text("Looking for size: " + searchSize + " Found at: " + foundIndex, 0, 0);
+}//displayInfo
